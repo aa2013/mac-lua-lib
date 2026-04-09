@@ -1,0 +1,42 @@
+name: Build Lua macOS Universal
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+      - work
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build universal Lua (5.4.8)
+        env:
+          LUA_VERSION: 5.4.8
+          MIN_MACOS: '11.0'
+        run: |
+          ./scripts/build_universal_lua.sh
+
+      - name: Verify architectures
+        run: |
+          lipo -archs dist/Lua-5.4.8-macos-universal/lib/liblua.5.4.8.dylib
+
+      - name: Package artifact
+        run: |
+          cd dist
+          tar -czf Lua-5.4.8-macos-universal.tar.gz Lua-5.4.8-macos-universal
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Lua-5.4.8-macos-universal
+          path: dist/Lua-5.4.8-macos-universal.tar.gz
+          if-no-files-found: error
