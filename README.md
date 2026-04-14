@@ -2,6 +2,10 @@
 
 这个仓库用于打包 **macOS 可用的 Lua 5.4.8 通用库（x86_64 + arm64）**，目标是给 Flutter Dart FFI 或其他框架直接引入，不负责 Flutter 业务实现。
 
+Android 版本见[android-lua-lib](https://github.com/aa2013/android-lua-lib)
+
+ios 版本见 [iOS-LuaFramework](https://github.com/aa2013/LuaFramework)
+
 ## 能力
 
 - 从 Lua 官方源码 `5.4.8` 构建两套架构产物：
@@ -77,8 +81,3 @@ lipo -archs dist/Lua-5.4.8-macos-universal/lib/liblua.5.4.8.dylib
 ```text
 x86_64 arm64
 ```
-
-## 与 iOS 仓库关系
-
-你提到 `aa2013/LuaFramework` 用于 iOS 多架构封装（xcframework）。
-当前仓库对应 **macOS 通用库打包**，用于在 Flutter 等框架中通过 FFI 引入 macOS Lua 动态库。
